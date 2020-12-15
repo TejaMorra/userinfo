@@ -1,0 +1,57 @@
+{
+  "name": "kovalent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "start": "npm run copySwaggerDoc && npm run build-ts && npm run serve",
+    "start:prod": "npm run build-ts && npm run copySwaggerDoc && npm run prod-serve",
+    "prod-serve": "NODE_ENV=Prod  node dist/server.js",
+    "serve": "NODE_ENV=Dev node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w",
+    "swagger:edit": "swagger project edit",
+    "copySwaggerDoc": "cpx \"src/swagger-docs/*.*\" dist/swagger-docs",
+    "lint-fix": "tslint \"src/**/*.ts\"",
+    "lint:staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint-fix",
+      "git add --force"
+    ]
+  },
+  "pre-commit": "lint:staged",
+  "author": "ATC",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.2",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.1",
+    "app-root-path": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
+    "cpx": "1.5.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "imports": "^1.0.0",
+    "joi": "^17.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "lint-staged": "^10.2.0",
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7",
+    "pre-commit": "^1.2.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "sequelize": "^6.3.5",
+    "stack-trace": "0.0.10",
+    "uuid": "^8.3.2"
+  }
+}
