@@ -19,10 +19,16 @@ const sql_manager_1 = require("../../config/sql.manager");
 const query_1 = require("../../config/query");
 class UserManager {
     constructor() {
-        this.getUsers = () => __awaiter(this, void 0, void 0, function* () {
+        this.getUsers = (requestData) => __awaiter(this, void 0, void 0, function* () {
             try {
+                if (!requestData.limit) {
+                    requestData.limit = 10;
+                }
+                if (!requestData.offset) {
+                    requestData.offset = 0;
+                }
                 const sqlManager = new sql_manager_1.SqlManager();
-                const userList = yield sqlManager.Get(query_1.users.getUsers);
+                const userList = yield sqlManager.Get(query_1.users.getUsers, requestData);
                 return userList;
             }
             catch (error) {
@@ -61,6 +67,61 @@ class UserManager {
             try {
                 const sqlManager = new sql_manager_1.SqlManager();
                 const resp = yield sqlManager.Delete(query_1.users.deleteUser, reqData);
+                return reqData;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        // Products
+        this.getProducts = (requestData) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!requestData.limit) {
+                    requestData.limit = 10;
+                }
+                if (!requestData.offset) {
+                    requestData.offset = 0;
+                }
+                const sqlManager = new sql_manager_1.SqlManager();
+                const productsList = yield sqlManager.Get(query_1.products.getProducts, requestData);
+                return productsList;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.getProduct = (requestData) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sqlManager = new sql_manager_1.SqlManager();
+                return sqlManager.Get(query_1.products.getProduct, { id: requestData.id });
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.updateProduct = (requestData) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sqlManager = new sql_manager_1.SqlManager();
+                return sqlManager.Update(query_1.products.updateProduct, requestData);
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.addProduct = (reqData) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sqlManager = new sql_manager_1.SqlManager();
+                const resp = yield sqlManager.Insert(query_1.products.insertProduct, reqData);
+                return reqData;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.deleteProduct = (reqData) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sqlManager = new sql_manager_1.SqlManager();
+                const resp = yield sqlManager.Delete(query_1.products.deleteProduct, reqData);
                 return reqData;
             }
             catch (error) {

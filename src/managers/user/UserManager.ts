@@ -1,14 +1,20 @@
 import jwt from 'jsonwebtoken';
 import { v4 } from 'uuid';
 import { SqlManager} from '../../config/sql.manager';
-import {users} from '../../config/query'
+import {users, products} from '../../config/query'
 
 export class UserManager {
 
-  public getUsers = async () => {
+  public getUsers = async (requestData) => {
     try {
+      if (!requestData.limit) {
+        requestData.limit = 10;
+      }
+      if (!requestData.offset) {
+        requestData.offset = 0;
+      }
       const sqlManager = new SqlManager();
-      const userList = await sqlManager.Get(users.getUsers);
+      const userList = await sqlManager.Get(users.getUsers, requestData);
       return userList;
     } catch (error) {
       throw error;
@@ -51,6 +57,61 @@ export class UserManager {
       throw error;
     }
   }
+
+  // Products
+
+  public getProducts = async (requestData) => {
+    try {
+      if (!requestData.limit) {
+        requestData.limit = 10;
+      }
+      if (!requestData.offset) {
+        requestData.offset = 0;
+      }
+      const sqlManager = new SqlManager();
+      const productsList = await sqlManager.Get(products.getProducts, requestData);
+      return productsList;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  public getProduct = async (requestData) => {
+    try {
+      const sqlManager = new SqlManager();
+      return sqlManager.Get(products.getProduct, {id: requestData.id});
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  public updateProduct = async (requestData) => {
+    try {
+      const sqlManager = new SqlManager();
+      return sqlManager.Update(products.updateProduct, requestData);
+    } catch (error) {
+      throw error;
+    }
+  }
+  public addProduct = async (reqData) => {
+    try {
+      const sqlManager = new SqlManager();
+      const resp = await sqlManager.Insert(products.insertProduct, reqData);
+      return reqData;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  public deleteProduct = async (reqData) => {
+    try {
+      const sqlManager = new SqlManager();
+      const resp = await sqlManager.Delete(products.deleteProduct, reqData);
+      return reqData;
+    } catch (error) {
+      throw error;
+    }
+  }
   
 
 public loginUser = async (reqData) => {
@@ -58,7 +119,6 @@ public loginUser = async (reqData) => {
     var token = jwt.sign({ id: v4() }, 'secretKey', {
       expiresIn: 86400 // expires in 24 hours
     });
-    console.log(token)
     return {token}
   } catch (error) {
     throw error;

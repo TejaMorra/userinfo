@@ -48,7 +48,7 @@ class UserController {
         });
         this.getUsers = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.userManager.getUsers();
+                const result = yield this.userManager.getUsers(request.body);
                 response.status(200).send(result);
             }
             catch (error) {
@@ -83,19 +83,81 @@ class UserController {
                 next(error);
             }
         });
+        // Products
+        this.deleteProduct = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.userManager.deleteProduct(request.params);
+                response.status(200).send(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+        this.updateProduct = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.userManager.updateProduct(Object.assign(Object.assign({}, request.params), request.body));
+                response.status(200).send(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+        this.getProducts = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.userManager.getProducts(request.body);
+                response.status(200).send(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+        this.getProduct = (req, response, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.userManager.getProduct(req.params);
+                response.status(200).send(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+        this.addProduct = (req, response, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const schema = joi_1.default.object({
+                    name: joi_1.default.string().required(),
+                    price: joi_1.default.number().required(),
+                    description: joi_1.default.string(),
+                    currency: joi_1.default.string().required(),
+                });
+                const data = schema.validate(req.body);
+                if (data.error) {
+                    next(data.error);
+                }
+                const result = yield this.userManager.addProduct(req.body);
+                response.status(200).send(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
         this.router = express_1.Router();
         this.userManager = new UserManager_1.UserManager();
         this.init();
     }
     init() {
-        this.router.post('/login', this.loginUser);
-        this.router.get("/", this.getUsers);
-        this.router.get("/:id", this.getUser);
-        this.router.post("/", this.addUser);
-        this.router.put("/:id", this.updateUser);
-        this.router.delete("/:id", this.deleteUser);
+        this.router.post('/user/login', this.loginUser);
+        this.router.post("/user", this.getUsers);
+        this.router.get("/user/:id", this.getUser);
+        this.router.post("/user/create", this.addUser);
+        this.router.put("/user/:id", this.updateUser);
+        this.router.delete("/user/:id", this.deleteUser);
+        // Product
+        this.router.post("/product", this.getProducts);
+        this.router.get("/product/:id", this.getProduct);
+        this.router.post("/product/create", this.addProduct);
+        this.router.put("/product/:id", this.updateProduct);
+        this.router.delete("/product/:id", this.deleteProduct);
     }
 }
 exports.UserController = UserController;
-UserController.route = "/api/user";
+UserController.route = "/api";
 //# sourceMappingURL=UserController.js.map
