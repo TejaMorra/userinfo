@@ -57,8 +57,8 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (err) => {
     console.log(err);
 });
-app.use(loggingMiddleware);
 configureMiddleWare();
+app.use(loggingMiddleware);
 ApiRouting_1.ApiRouting.Register(app);
 app.use((err, req, res, next) => {
     if (err)

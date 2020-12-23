@@ -133,7 +133,6 @@ class UserManager {
                 var token = jsonwebtoken_1.default.sign({ id: uuid_1.v4() }, 'secretKey', {
                     expiresIn: 86400 // expires in 24 hours
                 });
-                console.log(token);
                 return { token };
             }
             catch (error) {

@@ -1,5 +1,5 @@
 {
-  "name": "kovalent",
+  "name": "myapp",
   "version": "1.0.0",
   "description": "",
   "main": "dist/server.js",
@@ -36,11 +36,13 @@
     "app-root-path": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
+    "connect": "^3.7.0",
     "cors": "^2.8.1",
     "cpx": "1.5.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "http": "0.0.1-security",
     "imports": "^1.0.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
@@ -51,6 +53,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
     "sequelize": "^6.3.5",
+    "socket.io": "^3.0.4",
     "stack-trace": "0.0.10",
     "uuid": "^8.3.2"
   }
