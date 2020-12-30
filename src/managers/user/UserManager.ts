@@ -15,7 +15,8 @@ export class UserManager {
       }
       const sqlManager = new SqlManager();
       const userList = await sqlManager.Get(users.getUsers, requestData);
-      return userList;
+      const count = await sqlManager.Get(users.getCount);
+      return {userList, count: count[0]};
     } catch (error) {
       throw error;
     }
@@ -33,7 +34,8 @@ export class UserManager {
   public updateUser = async (requestData) => {
     try {
       const sqlManager = new SqlManager();
-      return sqlManager.Update(users.updateUser, requestData);
+      sqlManager.Update(users.updateUser, requestData);
+      return requestData
     } catch (error) {
       throw error;
     }
@@ -70,7 +72,8 @@ export class UserManager {
       }
       const sqlManager = new SqlManager();
       const productsList = await sqlManager.Get(products.getProducts, requestData);
-      return productsList;
+      const productsCount = await sqlManager.Get(products.getCount);
+      return {productsList, count: productsCount[0]};
     } catch (error) {
       throw error;
     }
@@ -88,7 +91,8 @@ export class UserManager {
   public updateProduct = async (requestData) => {
     try {
       const sqlManager = new SqlManager();
-      return sqlManager.Update(products.updateProduct, requestData);
+      sqlManager.Update(products.updateProduct, requestData);
+      return requestData
     } catch (error) {
       throw error;
     }
